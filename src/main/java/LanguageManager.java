@@ -31,8 +31,18 @@ public class LanguageManager {
 			case "itit":
 				chosenLanguage = ITALIAN;
 				break;
+			case "arar":
+				chosenLanguage = ARABIC;
+				break;
+			case "jpjp":
+				chosenLanguage = JAPANESE;
+				break;
+			case "zhcn":
+				chosenLanguage = CHINESE;
+				break;
 			default:
 				chosenLanguage = ENGLISH;
+				break;
 		}
 		
 		for (String str : languages) {
@@ -54,6 +64,15 @@ public class LanguageManager {
 					break;
 				case "itit":
 					langs.add(ITALIAN);
+					break;
+				case "arar":
+					langs.add(ARABIC);
+					break;
+				case "jpjp":
+					langs.add(JAPANESE);
+					break;
+				case "zhcn":
+					langs.add(CHINESE);
 					break;
 			}
 		}

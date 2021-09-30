@@ -10,22 +10,35 @@ import org.apache.poi.EncryptedDocumentException;
 
 public class XLSXHandler {
 	
+	private LanguageManager languageManager;
 	private String filePath;
+	private FileInputStream inputStream;
+	private FileOutputStream outputStream;
+	private XSSFWorkbook workbook;
+	private XSSFSheet sheet;
+	private int rows;
+	private int columns;
+	private XSSFRow row;
+	private XSSFCell cell;
+	private String text;
+	private CellStyle style;
 	
-	public XLSXHandler(String path) {
+	public XLSXHandler(LanguageManager lm, String path) {
+		this.languageManager = lm;
 		this.filePath = new String(path);
 	}
 	
-	public byte highlightNotChosenLanguages (LanguageManager languageManager) {
+	public byte highlightNotChosenLanguages () {
 		
 		try {
 			
-			FileInputStream inputStream = new FileInputStream(filePath);
-			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-			XSSFSheet sheet = workbook.getSheetAt(0);
-			int rows = sheet.getLastRowNum();
-			int columns = 0;
-			CellStyle style = workbook.createCellStyle();
+			inputStream = new FileInputStream(filePath);
+			workbook = new XSSFWorkbook(inputStream);
+			
+			sheet = workbook.getSheetAt(0);
+			rows = sheet.getLastRowNum();
+			columns = 0;
+			style = workbook.createCellStyle();
 			style.setFillForegroundColor(IndexedColors.GREEN.getIndex());
 			style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			
@@ -38,18 +51,18 @@ public class XLSXHandler {
 			
 			for (int i = 0; i <= rows; i++) {
 				
-				XSSFRow row = sheet.getRow(i);
+				row = sheet.getRow(i);
 				
 				for (int k = 0; k < columns; k++) {
 					
-					XSSFCell cell = row.getCell(k);
+					cell = row.getCell(k);
 
 					if (Objects.nonNull(cell)) {
 					
 						switch (cell.getCellType()) {
 						
 							case STRING:
-								String text = cell.getStringCellValue();
+								text = cell.getStringCellValue();
 								if (!(languageManager.verifyIfChosenLanguage(text))) {
 									cell.setCellStyle(style);
 								}
@@ -63,7 +76,7 @@ public class XLSXHandler {
 			}
 			
 			inputStream.close();
-			FileOutputStream outputStream = new FileOutputStream(filePath);
+			outputStream = new FileOutputStream(filePath);
 			workbook.write(outputStream);
 			workbook.close();
 			outputStream.close();

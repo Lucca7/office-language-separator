@@ -9,16 +9,19 @@ import org.apache.poi.xwpf.usermodel.*;
 
 public class DOCXHandler {
 
-	LanguageManager languageManager;
+	private LanguageManager languageManager;
 	private String filePath;
 	private boolean hideOtherLanguages;
 	private boolean highlightOtherLanguages;
-	List<XWPFParagraph> paragraphs;
-	Iterator<IBodyElement> docElementsIterator;
-	List<XWPFTable> xwpfTableList;
-	List<XWPFRun> runs;
-	XWPFTableCell cell;
-	String text;
+	private List<XWPFParagraph> paragraphs;
+	private Iterator<IBodyElement> docElementsIterator;
+	private List<XWPFTable> xwpfTableList;
+	private List<XWPFRun> runs;
+	private XWPFTableCell cell;
+	private String text;
+	private FileInputStream inputStream;
+	private FileOutputStream outputStream;
+	private XWPFDocument document;
 	
 	public DOCXHandler(LanguageManager lm, String path, boolean hideOtherLangs, boolean highlightOtherLangs) {
 		this.languageManager = lm;
@@ -31,9 +34,6 @@ public class DOCXHandler {
 		
 		try {
 			
-			FileInputStream inputStream;
-			FileOutputStream outputStream;
-			XWPFDocument document;
 			inputStream = new FileInputStream(filePath);
 			document = new XWPFDocument(inputStream);
 			
